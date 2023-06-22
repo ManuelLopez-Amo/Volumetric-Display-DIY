@@ -2,9 +2,10 @@
 #define PIN_NEO_PIXEL 6// Arduino pin that connects to NeoPixel
 #define NUM_PIXELS 12// The number of LEDs (pixels) on NeoPixel
 #define DELAY_INTERVAL 200
+#define NUM_STATES 7
 
 volatile unsigned long pseudospins = 0;
-volatile unsigned long tiempos[7];
+volatile unsigned long tiempos[NUM_STATES];
 volatile unsigned int count = 0;
 unsigned long next = 500;
 unsigned int temp = 0;
@@ -20,9 +21,9 @@ volatile int mode=0;
 
 volatile byte checkActual=0; 
 
-int checkpoints[7]={60,70,80,90,100,110,120};
-int comienzos[7]={3,3,2,2,3,3,0};
-int finales[7]={4,8,10,9,10,6,0};
+int checkpoints[NUM_STATES]={60,70,80,90,100,110,120};
+int comienzos[NUM_STATES]={3,3,2,2,3,3,0};
+int finales[NUM_STATES]={4,8,10,9,10,6,0};
 
 
 Adafruit_NeoPixel neoPixel(NUM_PIXELS, PIN_NEO_PIXEL, NEO_GRB + NEO_KHZ800);
@@ -68,7 +69,7 @@ void ir_detect(){
       //Serial.println("MEDIA VUELTA"); // Dos veces
       previousMillis = lastMillis;
       lastMillis = micros();
-      for(int angle = 0; angle < 7; angle++){
+      for(int angle = 0; angle < NUM_STATES; angle++){
         tiempos[angle]= lastMillis+(lastMillis-previousMillis)*(checkpoints[angle])/360;
       }
     }
